@@ -1,7 +1,12 @@
 const mongoose = require('mongoose')
 
 module.exports.connect = (uri) => {
-  mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true })
+  const options = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  }
+  mongoose.connect(uri, options)
   mongoose.Promise = global.Promise
 
   mongoose.connection.on('error', (err) => {

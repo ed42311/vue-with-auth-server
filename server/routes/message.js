@@ -2,7 +2,7 @@ const Message = require('../models/message')
 const logger = require('../utils/logger')
 
 module.exports = {
-  allProfiles (req, res) {
+  allMessages (req, res) {
     Message.find({})
       .exec((err, result) => {
         if (err) {
@@ -40,7 +40,7 @@ module.exports = {
         res.send(err)
       } else {
         res.status(200).json({
-          message: 'Build updated!',
+          message: 'Message updated!',
           updatedMessage
         })
       }

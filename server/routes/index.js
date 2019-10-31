@@ -14,7 +14,7 @@ const {
   createProfile,
   deleteProfile,
   updateProfile,
-  findProfileByEmail
+  findProfileById
 } = require('./profile')
 
 router.get('/test', (req, res) => {
@@ -27,8 +27,8 @@ router.route('/profiles')
   .get(allProfiles)
   .post(createProfile)
 
-router.route('/profile/:email')
-  .get(findProfileByEmail)
+router.route('/profile/:id')
+  .get(findProfileById)
   .put(updateProfile)
   .delete(deleteProfile)
 

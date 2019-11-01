@@ -1,0 +1,10 @@
+diff a/.eslintrc.js b/.eslintrc.js	(rejected hunks)
+@@ -42 +42 @@ const serverLintConfig = {
+-    'no-console': "warn"
++    'no-console': 'warn'
+@@ -44 +44 @@ const serverLintConfig = {
+-};
++}
+@@ -46 +46 @@ const serverLintConfig = {
+-module.exports = LINT_ENV === 'server' ? serverLintConfig:  clientLintConfig
++module.exports = LINT_ENV === 'server' ? serverLintConfig : clientLintConfig

@@ -19,7 +19,8 @@ const clientLintConfig = {
   overrides: [
     {
       files: [
-        '**/__tests__/*.{j,t}s?(x)'
+        '**/__tests__/*.{j,t}s?(x)',
+        '*.spec.js'
       ],
       env: {
         mocha: true

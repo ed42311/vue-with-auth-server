@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint --ignore-pattern \"server/**\"",
     "server:lint": "LINT_ENV=\"server\" ./node_modules/eslint/bin/eslint.js \"./server/**\" --ignore-pattern \"*.json\" --ignore-pattern \"*.sh\"",
     "server:test": "mocha server/test/**/*.spec.js --require server/test/setup.js",
     "server:dev": "./node_modules/nodemon/bin/nodemon.js server/bin/www",
@@ -54,7 +54,7 @@
   },
   "lint-staged": {
     "*.{js,vue}": [
-      "vue-cli-service lint",
+      "yarn run lint",
       "git add"
     ]
   }

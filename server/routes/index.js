@@ -14,30 +14,36 @@ const {
   createProfile,
   deleteProfile,
   updateProfile,
-  findProfileById
+  findProfileById,
+  // registerNewProfile
 } = require('./profile')
 
 router.get('/test', (req, res) => {
-  console.log('test')
   res.json({ message: 'Minimal Test Call' })
 })
 
+// router.route('/register').post(registerNewProfile)
+
 // Profile routes
-router.route('/profiles')
+router
+  .route('/profiles')
   .get(allProfiles)
   .post(createProfile)
 
-router.route('/profile/:id')
+router
+  .route('/profile/:id')
   .get(findProfileById)
   .put(updateProfile)
   .delete(deleteProfile)
 
 // Message routes
-router.route('/messages')
+router
+  .route('/messages')
   .get(allMessages)
   .post(createMessage)
 
-router.route('/message/:id')
+router
+  .route('/message/:id')
   .get(findMessageById)
   .put(updateMessage)
   .delete(deleteMessage)

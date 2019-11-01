@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     Hello
+    <register/>
   </div>
 </template>
 

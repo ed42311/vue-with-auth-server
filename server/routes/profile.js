@@ -24,6 +24,19 @@ module.exports = {
       })
     })
   },
+  registerNewProfile (req, res) {
+    const profile = new Profile(req.body)
+
+    profile.create((err, profile) => {
+      if (err) {
+        console.error(err)
+      }
+      res.json({
+        message: 'Your Profile has been saved.',
+        profile
+      })
+    })
+  },
   deleteProfile (req, res) {
     Profile.findByIdAndDelete({ _id: req.params._id }, (err) => {
       if (err) {

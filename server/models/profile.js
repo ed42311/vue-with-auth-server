@@ -11,6 +11,7 @@ const ProfileSchema = new Schema({
   },
   password: String,
   name: String,
+  isAdmin: Boolean,
   type: String,
   avatar: Buffer
 }, { timestamps: true })

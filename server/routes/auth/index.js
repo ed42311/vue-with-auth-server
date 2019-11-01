@@ -9,9 +9,8 @@ const router = new express.Router()
 // const user = resp.data.user
 
 router.post('/register', (req, res, next) => {
-
   const validationResult = validateSignupForm(req.body)
-  res.json({'hello': 'hello'});
+  res.json({ 'hello': 'hello' })
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,

@@ -7,7 +7,7 @@ const validator = require('validator')
  * @returns {object} The result of validation.
  *
  */
-function validateSignupForm(payload) {
+function validateSignupForm (payload) {
   const errors = {}
   let isFormValid = true
   let message = ''
@@ -66,7 +66,7 @@ function validateSignupForm(payload) {
  * @returns {object} The result of validation.
  *
  */
-function validateLoginForm(payload) {
+function validateLoginForm (payload) {
   const errors = {}
   let isFormValid = true
   let message = ''

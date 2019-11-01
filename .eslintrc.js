@@ -1,9 +1,11 @@
-module.exports = {
+const { LINT_ENV } = process.env
+
+const clientLintConfig = {
   root: true,
   env: {
     node: true
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     '@vue/standard'
   ],
@@ -25,3 +27,20 @@ module.exports = {
     }
   ]
 }
+
+const serverLintConfig = {
+  env: {
+    node: true,
+    es6: true,
+    mocha: true
+  },
+  extends: 'eslint:recommended',
+  globals: {
+    expect: true
+  },
+  rules: {
+    'no-console': 'warn'
+  }
+}
+
+module.exports = LINT_ENV === 'server' ? serverLintConfig : clientLintConfig

@@ -14,7 +14,7 @@ const {
   createProfile,
   deleteProfile,
   updateProfile,
-  findProfileById,
+  findProfileById
   // registerNewProfile
 } = require('./profile')
 

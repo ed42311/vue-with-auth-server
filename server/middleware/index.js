@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const Profile = require('mongoose').model('Profile')
-// const config = require('../config')
+const config = require('../config/')
 
 /**
  *  The Auth Checker middleware function.

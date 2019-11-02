@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
+    drawer: null,
     user: {}
   },
   mutations: {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     logout (state) {
       state.status = ''
       state.token = ''
+    },
+    toggle_drawer (state) {
+      state.drawer = !state.drawer
     }
   },
   actions: {
@@ -88,10 +92,14 @@ export default new Vuex.Store({
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
+    },
+    toggleDrawer ({ commit }) {
+      return commit('toggle_drawer')
     }
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    authStatus: state => state.status
+    authStatus: state => state.status,
+    drawer: state => state.drawer
   }
 })

@@ -1,6 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const { validateSignupForm, validateLoginForm } = require('../../utils/validation')
+const { error } = require('../../utils/validation')
 
 const router = new express.Router()
 
@@ -10,18 +11,13 @@ const router = new express.Router()
 
 router.post('/register', (req, res, next) => {
   const validationResult = validateSignupForm(req.body)
-  res.json({ 'hello': 'hello' })
   if (!validationResult.success) {
-    return res.status(400).json({
-      success: false,
-      message: validationResult.message,
-      errors: validationResult.errors
-    })
+    return res.status(400).json(validationResult)
   }
 
   return passport.authenticate('local-signup', err => {
     if (err) {
-      console.log('error', err)
+      error(err)
       if (err.name === 'MongoError' && err.code === 11000) {
         // the 11000 Mongo code is for a duplication email error
         // the 409 HTTP status code is for conflict error

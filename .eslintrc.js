@@ -19,8 +19,7 @@ const clientLintConfig = {
   overrides: [
     {
       files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '*.spec.js'
+        '**/__tests__/*.{j,t}s?(x)'
       ],
       env: {
         mocha: true
@@ -32,13 +31,9 @@ const clientLintConfig = {
 const serverLintConfig = {
   env: {
     node: true,
-    es6: true,
-    mocha: true
+    es6: true
   },
   extends: 'eslint:recommended',
-  globals: {
-    expect: true
-  },
   rules: {
     'no-console': 'warn'
   }

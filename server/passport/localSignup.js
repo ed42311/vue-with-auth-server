@@ -1,6 +1,8 @@
+const jwt = require('jsonwebtoken')
 const Profile = require('../models/profile')
 const PassportLocalStrategy = require('passport-local').Strategy
 const mongoose = require('mongoose')
+const config = require('../config')
 
 /**
  * Return the Passport Local Strategy object.
@@ -18,10 +20,16 @@ module.exports = new PassportLocalStrategy({
     name: req.body.name.trim()
   }
 
-  const newUser = new Profile(profileData)
-  newUser.save((err) => {
+  const profile = new Profile(profileData)
+  profile.create((err, newProfile) => {
+
     if (err) { return done(err) }
 
-    return done(null)
+    const payload = {
+      sub: profile._id
+    }
+    const token = jwt.sign(payload, config.jwtSecret)
+
+    return done(token, newProfile)
   })
 })

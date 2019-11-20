@@ -1,66 +1,125 @@
 <template>
   <div>
-    <h4>Register</h4>
-    <form @submit.prevent="register">
-      <label for="givenName">First Name</label>
-      <div>
-          <input id="givenName" type="text" v-model="givenName" required autofocus>
-      </div>
-      <label for="familyName">Last Name</label>
-      <div>
-          <input id="familyName" type="text" v-model="familyName" required autofocus>
-      </div>
-      <label for="email" >E-Mail Address</label>
-      <div>
-          <input id="email" type="email" v-model="email" required>
-      </div>
-      <label for="password">Password</label>
-      <div>
-          <input id="password" type="password" v-model="password" required>
-      </div>
-      <label for="password-confirm">Confirm Password</label>
-      <div>
-          <input id="password-confirm" type="password" v-model="password_confirmation" required>
-      </div>
-      <div>
-          <button type="submit">Register</button>
-      </div>
-    </form>
+    <v-form
+      ref="form"
+      @submit.prevent="register"
+      v-model="valid"
+      lazy-validation
+    >
+    <v-text-field
+      v-model="givenName"
+      :counter="10"
+      :rules="nameRules"
+      label="First Name"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="familyName"
+      :counter="10"
+      :rules="nameRules"
+      label="Last Name"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="email"
+      :rules="emailRules"
+      label="E-mail"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      :rules="passwordRules"
+      label="Password"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="passwordConfirmation"
+      :rules="passwordRules"
+      label="Password Confirmation"
+      required
+    ></v-text-field>
+    <v-checkbox
+      v-model="chillBox"
+      :rules="[v => !!v || 'You must be chill to continue!!!!']"
+      label="You gonna be chill?"
+      required
+    ></v-checkbox>
+    <v-btn
+      :disabled="!valid"
+      color="success"
+      class="mr-4"
+      data-test="register-btn"
+      @click="register"
+    >
+      Submit
+    </v-btn>
+    <v-btn
+      color="error"
+      class="mr-4"
+      data-test="reset-btn"
+      @click="reset"
+    >
+      Clear
+    </v-btn>
+    <v-btn
+      color="warning"
+      @click="resetValidation"
+    >
+      Reset Validation
+    </v-btn>
+    </v-form>
   </div>
 </template>
 
 <script>
-// {
-//  "firstName": "hello",
-//  "lastName": "there",
-//  "email": "test@test.coms",
-//  "password": "12345678"
-// }
-// password confirmation ?
-// check password agianst password and validate
-// roles ?
 export default {
-  data () {
-    return {
-      givenName: '',
-      familyName: '',
-      email: '',
-      password: '',
-      password_confirmation: ''
-      // is_admin: null
-    }
-  },
+  data: () => ({
+    valid: true,
+    givenName: '',
+    familyName: '',
+    nameRules: [
+      v => !!v || 'Name is required',
+      v => (v && v.length <= 20) || 'Name must be less than 20 characters'
+    ],
+    email: '',
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+    ],
+    password: '',
+    passwordConfirmation: '',
+    passwordRules: [
+      v => !!v || 'Password is required',
+      v => (v && v.length >= 8) || 'Password must be greater 8 characters'
+    ],
+    chillBox: false
+  }),
   methods: {
-    register: function () {
-      let data = {
-        name: this.name,
-        email: this.email,
-        password: this.password
-        // is_admin: this.is_admin
-      }
-      this.$store.dispatch('register', data)
+    register () {
+      const data = ({ givenName, familyName, email, password, chillBox }) => ({
+        givenName,
+        familyName,
+        email,
+        password,
+        chillBox
+      })
+      this.$store.dispatch('register', data(this))
         .then(() => this.$router.push('/'))
         .catch(err => console.log(err))
+    },
+    validate () {
+      if (this.$refs.form.validate()) {
+        this.snackbar = true
+      }
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
+    submit () {
+      this.$refs.form.submit()
     }
   }
 }

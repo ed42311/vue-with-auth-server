@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-model="drawer"
+    :value="drawer"
     app
     clipped
     absolute
@@ -35,7 +35,8 @@ export default {
     ]
   }),
   computed: {
-    drawer: function () { return this.$store.getters.drawer }
+    drawer: function () { return this.$store.getters.drawer },
+    loggedIn: function () { return this.$store.getters.loggedIn }
   }
 }
 </script>

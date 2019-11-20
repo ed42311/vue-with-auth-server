@@ -3,6 +3,8 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const passport = require('passport')
+const cors = require('cors')
+const helmet = require('helmet')
 require('dotenv').config()
 
 const { MONGODB_URI } = process.env
@@ -18,6 +20,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '../dist')))
 app.use(passport.initialize())
+app.use(cors())
+app.use(helmet())
 app.use(cookieParser())
 
 const localSignupStrategy = require('./passport/localSignup')

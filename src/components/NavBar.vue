@@ -3,8 +3,12 @@
     app
     clipped-left
   >
-    <v-app-bar-nav-icon @click.stop="toggleDrawer" />
-    <v-toolbar-title>Standard Auth</v-toolbar-title>
+    <v-app-bar-nav-icon
+      class="navbar__icon"
+      data-test="toggle-drawer-icon"
+      @click.stop="toggleDrawer"
+    />
+    <v-toolbar-title>The Auditorium</v-toolbar-title>
   </v-app-bar>
 </template>
 

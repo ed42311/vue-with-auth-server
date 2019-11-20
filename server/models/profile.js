@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema
 const model = mongoose.model.bind(mongoose)
+const { log } = require('../utils/logger')
+
+const ModelType = 'Profile'
 
 // define the User model schema
 const ProfileSchema = new Schema({
@@ -10,9 +13,19 @@ const ProfileSchema = new Schema({
     index: { unique: true }
   },
   password: String,
-  name: String,
-  isAdmin: Boolean,
-  type: String,
+  givenName: String,
+  familyName: String,
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  type: {
+    type: String,
+    default: 'USER'
+  },
+  chillAccept: {
+    type: Boolean
+  },
   avatar: Buffer
 }, { timestamps: true })
 
@@ -29,24 +42,33 @@ ProfileSchema.methods.comparePassword = (password, callback) => {
 /**
  * The pre-save hook method.
  */
-ProfileSchema.pre('save', (next) => {
-  const user = this
-
-  if (!user.isModified('password')) return next()
+ProfileSchema.pre('save', function (next) {
+  if (!this.isModified('password')) return next()
+  this.wasNew = this.isNew
 
   return bcrypt.genSalt((saltError, salt) => {
     if (saltError) { return next(saltError) }
 
-    return bcrypt.hash(user.password, salt, (hashError, hash) => {
+    return bcrypt.hash(this.password, salt, (hashError, hash) => {
       if (hashError) { return next(hashError) }
 
       // replace a password string with hash value
-      user.password = hash
-      user.created_at = new Date()
+      this.password = hash
 
       return next()
     })
   })
 })
 
-module.exports = model('Profile', ProfileSchema)
+/**
+ * The post-save hook method.
+ */
+ProfileSchema.post('save', function () {
+  if (this.wasNew) {
+    log(`New ${ModelType} Created: ${this._id}`)
+    return
+  }
+  log(`${ModelType} updated: ${this._id}`)
+})
+
+module.exports = model(ModelType, ProfileSchema)

@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const { validateSignupForm, validateLoginForm } = require('../../utils/validation')
-const { error } = require('../../utils/validation')
+const { error } = require('../../utils/logger')
 
 const router = new express.Router()
 
@@ -11,11 +11,12 @@ const router = new express.Router()
 
 router.post('/register', (req, res, next) => {
   const validationResult = validateSignupForm(req.body)
+
   if (!validationResult.success) {
     return res.status(400).json(validationResult)
   }
 
-  return passport.authenticate('local-signup', err => {
+  return passport.authenticate('local-signup', function (err, token, profile) {
     if (err) {
       error(err)
       if (err.name === 'MongoError' && err.code === 11000) {
@@ -24,9 +25,9 @@ router.post('/register', (req, res, next) => {
         return res.status(409).json({
           success: false,
           message: 'Check the form for errors.',
-          errors: {
-            email: 'This email is already taken.'
-          }
+          errors: [
+            'This email is already taken.'
+          ]
         })
       }
 
@@ -38,8 +39,9 @@ router.post('/register', (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message:
-        'You have successfully signed up! Now you should be able to log in.'
+      message: 'You have successfully signed up! Now you should be able to log in.',
+      token,
+      profile
     })
   })(req, res, next)
 })

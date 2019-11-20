@@ -36,6 +36,9 @@ router
   .put(updateProfile)
   .delete(deleteProfile)
 
+router
+  .route('/profile/:profile_id/message/:message_id')
+
 // Message routes
 router
   .route('/messages')

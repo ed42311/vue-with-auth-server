@@ -1,17 +1,16 @@
 <template>
-  <div class="home">
-    Hello
-    <register-form />
+  <div class="view__login">
+    <login-form />
   </div>
 </template>
 
 <script>
-import RegisterForm from '@/components/RegisterForm'
+import LoginForm from '@/components/LoginForm'
 
 export default {
-  name: 'register',
+  name: 'login-view',
   components: {
-    RegisterForm
+    LoginForm
   }
 }
 </script>
